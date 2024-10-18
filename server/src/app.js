@@ -3,6 +3,7 @@ import cors from 'cors'
 import cookieparser from 'cookie-parser'
 import userRouter from "./routes/user.route.js"
 import taskRouter from './routes/task.route.js'
+import categoryRouter from './routes/category.route.js'
 
 const app = express()
 
@@ -16,8 +17,9 @@ app.use(
 app.use(express.json())
 app.use(cookieparser())
 
-app.use('/api', userRouter)
-app.use('/api', taskRouter)
+app.use('/api/user', userRouter)
+app.use('/api/task', taskRouter)
+app.use('/api/category', categoryRouter)
 
 app.get("/", (req, res)=>{
     res.send("Hi Its Akash")
