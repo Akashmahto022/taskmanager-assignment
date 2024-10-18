@@ -14,6 +14,7 @@ const register = async (req, res) => {
         message: "User already exists with this email try to login",
       });
     }
+    
 
     const hashPassword = await bcrypt.hash(password, 12);
 
