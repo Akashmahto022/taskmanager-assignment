@@ -15,9 +15,13 @@ const taskSchema = new Schema(
       default: "pending",
       enum: ["pending", "in-progress", "completed"],
       required: true,
-    },  
+    },
     dueDate: {
       type: Date,
+    },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
     },
     category: {
       type: Schema.Types.ObjectId,
@@ -27,5 +31,4 @@ const taskSchema = new Schema(
   { timestamps: true }
 );
 
-const Task = mongoose.model("Task", taskSchema);
-export default Task;
+export const Task = mongoose.model("Task", taskSchema);

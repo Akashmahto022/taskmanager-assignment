@@ -29,6 +29,12 @@ const userSchema = new Schema(
         ref: "Task",
       },
     ],
+    category: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Category",
+      },
+    ],
     isActive: {
       type: Boolean,
       required: true,
@@ -38,6 +44,5 @@ const userSchema = new Schema(
   { timestamps: true }
 );
 
-const User = mongoose.model("User", userSchema);
+export const User = mongoose.model("User", userSchema);
 
-export default User;
