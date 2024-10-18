@@ -5,7 +5,7 @@ import {createCategory, updateCategory, deleteCategory} from '../controllers/cat
 const categoryRouter = express.Router();
 
 categoryRouter.post("/create",tokenVerify , createCategory)
-categoryRouter.patch("/update:id", tokenVerify, updateCategory)
-categoryRouter.delete("/delete:id", tokenVerify, deleteCategory)
+categoryRouter.patch("/update/:id", tokenVerify, updateCategory)
+categoryRouter.delete("/delete/:id", tokenVerify, deleteCategory)
 
 export default categoryRouter
