@@ -18,15 +18,18 @@ const taskSchema = new Schema(
     },
     dueDate: {
       type: Date,
+      default: null,
+    },
+
+    category: {
+      type: Schema.Types.ObjectId,
+      ref: "Category",
+      default: null,
     },
     owner: {
       type: Schema.Types.ObjectId,
       ref: "User",
-      required:true
-    },
-    category: {
-      type: Schema.Types.ObjectId,
-      ref: "Category",
+      required: true,
     },
   },
   { timestamps: true }

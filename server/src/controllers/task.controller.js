@@ -1,10 +1,11 @@
 import express from "express";
 import { Task } from "../models/task.model.js";
 
+
 const createTask = async (req, res) => {
-  try {
-    const userId = await req.user._id;
-    console.log(userId);
+  try { 
+    const {id} = await req.user;
+    console.log(id);
     const { title, description, status, dueDate, category } = req.body;
 
     if (!title & !status) {
@@ -19,18 +20,19 @@ const createTask = async (req, res) => {
       description: description,
       status: status,
       dueDate: dueDate,
-      owner: userId,
+      owner: id,
       category: category,
     });
+    console.log(newTask)
 
-    await newTask.save();
-    res.status(200).json({
+    const savedTask = await newTask.save();
+    return res.status(200).json({
       status: true,
-      task: newTask,
+      task: savedTask,
       message: "task created successfully",
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       status: false,
       message: "error while creating task",
     });
@@ -41,38 +43,43 @@ const getTasks = async (req, res) => {
   const userId = await req.user._id;
   console.log(userId);
   try {
-    const tasks = await Task.find({ user: userId }).populate("category");
-    res.status(200).json(tasks);
+    const tasks = await Task.find({ owner: userId }).populate("category");
+    return res.status(200).json(tasks);
   } catch (error) {
-    res.status(500).json({ message: "Error fetching tasks", error });
+    return res.status(500).json({ message: "Error fetching tasks", error });
   }
 };
 
 const getTask = async (req, res) => {
+    const {id} = req.params
+    console.log(id)
   try {
-    const task = await Task.findById(req.params.id);
+    const task = await Task.findById(id).populate('category', 'status')
 
-    if (!task) return next(apiError(404, "Gig not Found"));
+    if (!task) return next(apiError(404, "Task not Found"));
 
-    res.status(200).send(task);
+    return res.status(200).send(task);
   } catch (error) {
-    res.status(500).json({ message: "Error fetching tasks", error });
+    return res.status(500).json({ message: "Error fetching tasks", error });
   }
 };
 
 const updatetask = async (req, res) => {
-  const task = req.params.id;
+  const {id} = req.params;
+  const update = req.body
 
   try {
-    const updatedTask = await Task.findByIdAndUpdate(task, req.body, {
+    const task = await Task.findByIdAndUpdate(id,update, {
       new: true,
+      runValidators: true
     });
-    if (!updatedTask) {
+    if (!task) {
       return res.status(404).json({ message: "Task not found" });
     }
-    res
+
+    return res
       .status(200)
-      .json({ message: "Task updated successfully", task: updatedTask });
+      .json({ message: "Task updated successfully", task: task });
   } catch (error) {
     res.status(500).json({ message: "Error updating task", error });
   }

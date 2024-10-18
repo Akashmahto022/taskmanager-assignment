@@ -5,9 +5,9 @@ const categorySchema = new Schema(
     name: {
       type: String,
       required: true,
-      unique: false, // Categories can have the same name across different users
+      unique: true, 
     },
-    user: {
+    owner: {
       type: Schema.Types.ObjectId,
       ref: "User", // Reference to the User model
       required: true,
