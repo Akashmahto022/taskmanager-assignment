@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { FaUserCircle } from 'react-icons/fa';
+import React, { useState } from "react";
+import { FaUserCircle } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -9,13 +10,15 @@ const Navbar = () => {
   };
 
   const handleLogout = () => {
-    console.log('Logout clicked');
+    console.log("Logout clicked");
   };
 
   return (
     <nav className="bg-blue-600 p-4 flex justify-between items-center shadow-md fixed top-0 left-0 right-0 z-10">
       {/* Logo */}
-      <div className="text-white font-bold text-xl">Task App</div>
+      <div className="text-white font-bold text-xl">
+        <Link to={"/dashboard"}>Task App</Link>
+      </div>
 
       {/* User Icon and Dropdown */}
       <div className="relative">

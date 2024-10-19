@@ -9,16 +9,16 @@ const Sidebar = () => {
         <Link to="/dashboard" className="block p-2 hover:bg-gray-700 rounded">
           Dashboard
         </Link>
-        <Link to="/tasks" className="block p-2 hover:bg-gray-700 rounded">
+        <Link to="/dashboard/tasks" className="block p-2 hover:bg-gray-700 rounded">
           Tasks
         </Link>
-        <Link to="/completed-tasks" className="block p-2 hover:bg-gray-700 rounded">
+        <Link to="/dashboard/completed-tasks" className="block p-2 hover:bg-gray-700 rounded">
           Completed Tasks
         </Link>
-        <Link to="/pending" className="block p-2 hover:bg-gray-700 rounded">
+        <Link to="/dashboard/pending" className="block p-2 hover:bg-gray-700 rounded">
           Pending
         </Link>
-        <Link to="/in-progress" className="block p-2 hover:bg-gray-700 rounded">
+        <Link to="/dashboard/in-progress" className="block p-2 hover:bg-gray-700 rounded">
           In Progress
         </Link>
       </nav>
