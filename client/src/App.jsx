@@ -12,6 +12,8 @@ import Tasks from "./pages/tasks/Tasks";
 import Pending from "./pages/pending/Pending";
 
 const App = () => {
+
+
   return (
     <main className="w-full min-h-screen bg-[#f3f4f6] ">
       <Routes>

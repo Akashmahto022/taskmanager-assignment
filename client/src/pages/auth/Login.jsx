@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/store/auth-slice";
 
 const Login = () => {
   const url = "http://localhost:4000";
@@ -8,7 +11,23 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = () => {};
+  const dispatch = useDispatch()
+
+  const handleSubmit = async(e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(`${url}/api/user/login`, {
+        email,
+        password,
+      });
+      const data = response.data
+      console.log(response.data.message, data);
+      dispatch(setUser(data))
+      navigate("/dashboard");
+    } catch (error) {
+      console.log("error while login the user", error.message);
+    }
+  };
 
   return (
     <>
@@ -31,7 +50,7 @@ const Login = () => {
               </h2>
               <h2 className="mb-6 text-center text-gray-700">
                 if don't have an account{" "}
-                <Link to={"/signup"} className="underline">
+                <Link to={"/signup"} className="underline text-blue-700 font-semibold">
                   {" "}
                   Signup here
                 </Link>

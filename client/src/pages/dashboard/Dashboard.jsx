@@ -2,7 +2,7 @@ import React from "react";
 
 const Dashboard = () => {
   return (
-    <div>
+    <div className="mt-[70px] bg-white">
       Dashboard Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi
       ratione quaerat nobis. Lorem ipsum dolor sit amet consectetur adipisicing
       elit. Voluptas nemo, architecto excepturi doloremque exercitationem, natus

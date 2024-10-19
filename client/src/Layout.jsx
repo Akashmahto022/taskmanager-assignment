@@ -1,15 +1,15 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { useLocation, Navigate } from "react-router-dom";
+import { useLocation, Navigate, Outlet } from "react-router-dom";
 import Sidebar from "./components/sidebar/Sidebar";
 import Navbar from "./components/navbar/Navbar";
 
 function Layout() {
-  const { user } = useSelector((state) => state.auth);
-
+  const { isAuthenticated } = useSelector((state) => state.auth);
+  console.log(isAuthenticated)
   const location = useLocation();
 
-  return user ? (
+  return isAuthenticated ? (
     <div className="w-full h-screen flex flex-col md:flex-row">
       <div className="w-1/5 h-screen bg-white sticky top-0 hidden md:block">
         <Sidebar />
