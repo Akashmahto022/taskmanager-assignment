@@ -1,12 +1,21 @@
 import express from "express";
 import { Task } from "../models/task.model.js";
-
+import { Category } from "../models/category.model.js";
 
 const createTask = async (req, res) => {
-  try { 
-    const {id} = await req.user;
-    console.log(id);
+  try {
+    const { id } = req.user;
     const { title, description, status, dueDate, category } = req.body;
+    let categoryName = null;
+    if (category) {
+      categoryName = await Category.findOne({
+        name: category,
+        owner: id,
+      });
+      if (!categoryName) {
+        return res.status(400).json({ message: "Invalid category" });
+      }
+    }
 
     if (!title & !status) {
       res.status(500).json({
@@ -21,9 +30,8 @@ const createTask = async (req, res) => {
       status: status,
       dueDate: dueDate,
       owner: id,
-      category: category,
+      category: categoryName || null,
     });
-    console.log(newTask)
 
     const savedTask = await newTask.save();
     return res.status(200).json({
@@ -51,10 +59,10 @@ const getTasks = async (req, res) => {
 };
 
 const getTask = async (req, res) => {
-    const {id} = req.params
-    console.log(id)
+  const { id } = req.params;
+  console.log(id);
   try {
-    const task = await Task.findById(id).populate('category', 'status')
+    const task = await Task.findById(id)
 
     if (!task) return next(apiError(404, "Task not Found"));
 
@@ -65,14 +73,32 @@ const getTask = async (req, res) => {
 };
 
 const updatetask = async (req, res) => {
-  const {id} = req.params;
-  const update = req.body
+  const { id } = req.params;
+  const { title, description, status, dueDate, category } = req.body;
+  const { userId } = await req.user;
 
   try {
-    const task = await Task.findByIdAndUpdate(id,update, {
-      new: true,
-      runValidators: true
-    });
+    let categoryName = null;
+    if (category) {
+      categoryName = await Category.findOne({
+        name: category,
+        owner: userId,
+      });
+      if (!categoryName) {
+        return res.status(400).json({ message: "Invalid category"});
+      }
+    }
+
+    console.log(categoryName)
+
+    const task = await Task.findByIdAndUpdate(
+      { _id: id, owner: userId },
+      { title, description, status, dueDate, category:categoryName },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
     if (!task) {
       return res.status(404).json({ message: "Task not found" });
     }

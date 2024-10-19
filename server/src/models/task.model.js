@@ -24,7 +24,6 @@ const taskSchema = new Schema(
     category: {
       type: Schema.Types.ObjectId,
       ref: "Category",
-      default: null,
     },
     owner: {
       type: Schema.Types.ObjectId,
