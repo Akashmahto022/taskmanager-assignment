@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import Sidebar from "../sidebar/Sidebar";
 import Navbar from "../navbar/Navbar";
 
-const Layout = () => {
+const DashboardLayout = () => {
   return (
     <div className="flex min-h-screen w-full">
       {/* sidebar */}
@@ -11,7 +11,7 @@ const Layout = () => {
       <div className="flex flex-1 flex-col">
         {/* navbar */}
         <Navbar />
-        <main className="flex-1 flex bg-muted/40 p-4 md:p-6">
+        <main className="flex-1 flex bg-muted/40 p-[120px] md:p-6">
           <Outlet />
         </main>
       </div>
@@ -19,4 +19,4 @@ const Layout = () => {
   );
 };
 
-export default Layout;
+export default DashboardLayout;
