@@ -6,7 +6,6 @@ import Navbar from "./components/navbar/Navbar";
 
 function Layout() {
   const { isAuthenticated } = useSelector((state) => state.auth);
-  console.log(isAuthenticated)
   const location = useLocation();
 
   return isAuthenticated ? (

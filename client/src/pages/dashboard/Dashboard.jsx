@@ -1,23 +1,108 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { FaEye } from 'react-icons/fa'; // Import the eye icon
+
+const mockTasks = [
+  { id: 1, title: 'Task 1', description: 'Description for task 1', status: 'Pending', dueDate: '2024-10-20' },
+  { id: 2, title: 'Task 2', description: 'Description for task 2', status: 'Completed', dueDate: '2024-10-21' },
+  { id: 3, title: 'Task 3', description: '', status: 'In Progress', dueDate: '' },
+];
 
 const Dashboard = () => {
+  const url = "http://localhost:4000";
+  const [tasks, setTasks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedTask, setSelectedTask] = useState(null); // State to hold the selected task for the popup
+  const [isModalOpen, setIsModalOpen] = useState(false); // Modal visibility state
+
+  // Fetch tasks on component mount
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        // Replace with your actual API endpoint
+        const response = await axios.get(`${url}/api/task/all-tasks`);
+        console.log(response)
+        setTasks(response.data.task);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching tasks:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchTasks();
+  }, []);
+
+  // Open the modal and set the selected task
+  const openModal = (task) => {
+    setSelectedTask(task);
+    setIsModalOpen(true);
+  };
+
+  // Close the modal
+  const closeModal = () => {
+    setSelectedTask(null);
+    setIsModalOpen(false);
+  };
+
+  if (loading) return <div>Loading...</div>;
+
   return (
-    <div className="mt-[70px] bg-white">
-      Dashboard Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi
-      ratione quaerat nobis. Lorem ipsum dolor sit amet consectetur adipisicing
-      elit. Voluptas nemo, architecto excepturi doloremque exercitationem, natus
-      non earum a consequuntur quis laborum maxime ullam accusantium beatae,
-      fuga nobis? Adipisci aliquid blanditiis cupiditate quos, dolor, vel optio
-      illum amet perferendis animi numquam, repudiandae obcaecati itaque
-      eligendi unde? Reiciendis culpa, dolor qui debitis maiores veritatis
-      voluptates atque eum enim ducimus facere ipsam voluptatum asperiores
-      distinctio pariatur nisi ea voluptas porro impedit possimus quisquam
-      minima repudiandae nemo? Vero veniam et exercitationem magnam, cumque
-      delectus voluptates dicta. Dolorum nihil dicta nobis, culpa totam quod
-      sapiente. Iure neque recusandae dolore adipisci quos deserunt, fuga
-      reprehenderit excepturi atque ipsum voluptates tempore optio sequi
-      deleniti sed exercitationem pariatur reiciendis natus velit sint minima
-      eius consectetur, eligendi necessitatibus. Ipsa.
+    <div className="p-4">
+      <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
+
+      {/* Task Table */}
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-white border border-gray-200">
+          <thead>
+            <tr>
+              <th className="px-4 py-2 border-b">Title</th>
+              <th className="px-4 py-2 border-b">Description</th>
+              <th className="px-4 py-2 border-b">Status</th>
+              <th className="px-4 py-2 border-b">Due Date</th>
+              <th className="px-4 py-2 border-b">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {tasks.map((task) => (
+              <tr key={task.id}>
+                <td className="px-4 py-2 border-b">{task.title}</td>
+                <td className="px-4 py-2 border-b">{task.description || 'No description'}</td>
+                <td className="px-4 py-2 border-b">{task.status}</td>
+                <td className="px-4 py-2 border-b">{task.dueDate || 'No due date'}</td>
+                <td className="px-4 py-2 border-b">
+                  <button
+                    className="text-blue-500 hover:text-blue-700"
+                    onClick={() => openModal(task)} // Open modal with task details
+                  >
+                    <FaEye /> {/* Eye Icon */}
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Task Details Modal */}
+      {isModalOpen && selectedTask && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50">
+          <div className="bg-white p-6 rounded shadow-lg max-w-md w-full">
+            <h2 className="text-xl font-bold mb-4">Task Details</h2>
+            <p><strong>Title:</strong> {selectedTask.title}</p>
+            <p><strong>Description:</strong> {selectedTask.description || 'No description'}</p>
+            <p><strong>Status:</strong> {selectedTask.status}</p>
+            <p><strong>Due Date:</strong> {selectedTask.dueDate || 'No due date'}</p>
+
+            <button
+              className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
+              onClick={closeModal} // Close the modal
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
