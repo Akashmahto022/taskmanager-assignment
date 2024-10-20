@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaEye } from "react-icons/fa";
+import { FaTrashAlt } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import UpdateTaskModal from "@/components/updateTaskModal/UpdateTaskModal";
-
+import { Link } from "react-router-dom";
 
 const Dashboard = () => {
   const url = "http://localhost:4000";
@@ -14,23 +15,34 @@ const Dashboard = () => {
   const { user } = useSelector((state) => state.auth);
   const token = user.accessToken;
 
-    const fetchTasks = async () => {
-      try {
-        const response = await axios.get(`${url}/api/task/all-tasks`, {
-          withCredentials: true,
-        });
-        console.log(response.data);
-        setTasks(response.data);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching tasks:", error);
-        setLoading(false);
-      }
-    };
+  const fetchTasks = async () => {
+    try {
+      const response = await axios.get(`${url}/api/task/all-tasks`, {
+        withCredentials: true,
+      });
+      console.log(response.data);
+      setTasks(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+      setLoading(false);
+    }
+  };
 
-    useEffect(()=>{
-      fetchTasks()
-    },[])
+  const deleteTask = async (taskId) => {
+    try {
+      await axios.delete(`${url}/api/task/delete/${taskId}`, {
+        withCredentials: true,
+      }); 
+      fetchTasks();
+    } catch (error) {
+      console.error("Error deleting task:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTasks();
+  }, []);
 
   // Open the modal and set the selected task
   const openModal = (task) => {
@@ -49,7 +61,9 @@ const Dashboard = () => {
   return (
     <div className="mt-[70px]">
       <h1 className="text-2xl font-bold mb-2">Dashboard</h1>
-      <h2 className="text-black mb-2">Here is list of tasks that you have created</h2>
+      <h2 className="text-black mb-2">
+        Here is list of tasks that you have created
+      </h2>
 
       {/* Task Table */}
       <div className="overflow-x-auto">
@@ -65,27 +79,37 @@ const Dashboard = () => {
             </tr>
           </thead>
           <tbody>
-            {tasks.map((task, index) => (
-              <tr key={task._id} className="text-center">
-                <td className="px-4 py-2 border-b">{index+1}</td>
-                <td className="px-4 py-2 border-b">{task.title}</td>
-                <td className="px-4 py-2 border-b">
-                  {task.category ? task.category.name : "No defined"}
-                </td>
-                <td className="px-4 py-2 border-b">{task.status}</td>
-                <td className="px-4 py-2 border-b">
-                  {task.dueDate || "No due date"}
-                </td>
-                <td className="px-4 py-2 border-b">
-                  <button
-                    className="text-blue-500 hover:text-blue-700"
-                    onClick={() => openModal(task)}
-                  >
-                    <FaEye />
-                  </button>
-                </td>
-              </tr>
-            ))}
+            {tasks.length > 0 ? (
+              tasks.map((task, index) => (
+                <tr key={task._id} className="text-center">
+                  <td className="px-4 py-2 border-b">{index + 1}</td>
+                  <td className="px-4 py-2 border-b">{task.title}</td>
+                  <td className="px-4 py-2 border-b">
+                    {task.category ? task.category.name : "Not defined"}
+                  </td>
+                  <td className="px-4 py-2 border-b">{task.status}</td>
+                  <td className="px-4 py-2 border-b">
+                    {task.dueDate || "No due date"}
+                  </td>
+                  <td className="px-4 py-2 border-b">
+                    <button className="flex gap-4 pl-[40px] text-center text-blue-500 hover:text-blue-700">
+                      <FaEye onClick={() => openModal(task)} />
+                      <FaTrashAlt onClick={() => deleteTask(task._id)} />
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <p>
+                You haven't created any task create
+                <Link
+                  to={"/add-task"}
+                  className="text-blue-700 text-xl font-medium underline px-3"
+                >
+                  Here
+                </Link>
+              </p>
+            )}
           </tbody>
         </table>
       </div>

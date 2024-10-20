@@ -16,10 +16,10 @@ const Sidebar = () => {
           Completed Tasks
         </Link>
         <Link to="/pending/" className="block p-2 hover:bg-gray-700 rounded">
-          Pending
+          Pending Task
         </Link>
         <Link to="/in-progress/" className="block p-2 hover:bg-gray-700 rounded">
-          In Progress
+          In Progress Task
         </Link>
       </nav>
     </div>

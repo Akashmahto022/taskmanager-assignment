@@ -62,7 +62,7 @@ const getTask = async (req, res) => {
   const { id } = req.params;
   console.log(id);
   try {
-    const task = await Task.findById(id)
+    const task = await Task.findById(id);
 
     if (!task) return next(apiError(404, "Task not Found"));
 
@@ -76,24 +76,23 @@ const updatetask = async (req, res) => {
   const { id } = req.params;
   const { title, description, status, dueDate, category } = req.body;
   const { userId } = await req.user;
-
+  console.log(category);
   try {
+    
     let categoryName = null;
     if (category) {
       categoryName = await Category.findOne({
         name: category,
-        owner: userId,
+        owner: id,
       });
       if (!categoryName) {
-        return res.status(400).json({ message: "Invalid category"});
+        return res.status(400).json({ message: "Invalid category" });
       }
     }
 
-    console.log(categoryName)
-
     const task = await Task.findByIdAndUpdate(
       { _id: id, owner: userId },
-      { title, description, status, dueDate, category:categoryName },
+      { title, description, status, dueDate, category: categoryName },
       {
         new: true,
         runValidators: true,

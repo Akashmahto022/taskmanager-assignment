@@ -24,8 +24,8 @@ const Login = () => {
         },
         { withCredentials: true }
       );
+      console.log(response)
       localStorage.setItem("myToken", response.data.accessToken);
-      console.log(response.data.accessToken, data);
       const data = response.data;
       dispatch(setUser(data));
       navigate("/dashboard");

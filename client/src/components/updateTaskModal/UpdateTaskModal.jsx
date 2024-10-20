@@ -7,48 +7,28 @@ const UpdateTaskModal = ({ task, isOpen, onClose, fetchTasks }) => {
   const [description, setDescription] = useState(task.description);
   const [status, setStatus] = useState(task.status);
   const [category, setCategory] = useState(task.category);
-  const [categories, setCategories] = useState([]);
   const [dueDate, setDueDate] = useState(task.dueDate);
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await axios.get(`${url}/api/category/get`, {
-          withCredentials: true,
-        });
-        if (response.data.length === 0) {
-          setError("You don’t have any categories.");
-        }
-        setCategories(response.data);
-        console.log(response.data);
-      } catch (err) {
-        setError("Failed to fetch categories.");
-      }
-    };
-
-    fetchCategories();
-  }, []);
 
   // Function to handle updating the task
   const handleUpdateTask = async () => {
     try {
-      await axios.put(
+      const response = await axios.put(
         `${url}/api/task/update/${task._id}`,
         {
           title,
           description,
           status,
-          category,
           dueDate,
         },
         {
           withCredentials: true,
         }
       );
-      fetchTasks(); 
+      console.log(response.data);
+      fetchTasks();
       onClose();
     } catch (error) {
-      console.error("Error updating task:", error);
+      console.error("Error updating task:", error.message);
     }
   };
 
@@ -87,29 +67,11 @@ const UpdateTaskModal = ({ task, isOpen, onClose, fetchTasks }) => {
           <option value="in-progress">In Progress</option>
           <option value="completed">Completed</option>
         </select>
-
-        {/* Category */}
-        <label className="block mb-2">Category</label>
-        <select
-              id="category"
-              value={category}
-              required
-              onChange={(e) => setCategory(e.target.value)}
-              className="mt-1 block w-3/4 px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-            >
-              <option value="">Select a category</option>
-              {categories.map((cat) => (
-                <option key={cat._id} value={cat.name}>
-                  {cat.name}
-                </option>
-              ))}
-            </select>
-
         {/* Due Date */}
         <label className="block mb-2">Due Date</label>
         <input
           type="date"
-          value={dueDate} 
+          value={dueDate}
           onChange={(e) => setDueDate(e.target.value)}
           className="w-full px-3 py-2 border rounded-md mb-4"
         />
