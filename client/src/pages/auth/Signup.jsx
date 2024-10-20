@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
-  const url = "http://localhost:4000";
+  const url = "https://taskmanager-backend-8tz3.onrender.com";
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
