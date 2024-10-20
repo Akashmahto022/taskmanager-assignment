@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaEye } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import UpdateTaskModal from "@/components/updateTaskModal/UpdateTaskModal";
 
 
 const Dashboard = () => {
@@ -13,7 +14,6 @@ const Dashboard = () => {
   const { user } = useSelector((state) => state.auth);
   const token = user.accessToken;
 
-  useEffect(() => {
     const fetchTasks = async () => {
       try {
         const response = await axios.get(`${url}/api/task/all-tasks`, {
@@ -28,8 +28,9 @@ const Dashboard = () => {
       }
     };
 
-    fetchTasks();
-  }, []);
+    useEffect(()=>{
+      fetchTasks()
+    },[])
 
   // Open the modal and set the selected task
   const openModal = (task) => {
@@ -90,7 +91,7 @@ const Dashboard = () => {
       </div>
 
       {/* Task Details Modal */}
-      {isModalOpen && selectedTask && (
+      {/* {isModalOpen && selectedTask && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50">
           <div className="bg-white p-6 rounded shadow-lg max-w-md w-full">
             <h2 className="text-xl font-bold mb-4">Task Details</h2>
@@ -119,6 +120,14 @@ const Dashboard = () => {
             </button>
           </div>
         </div>
+      )} */}
+      {selectedTask && (
+        <UpdateTaskModal
+          task={selectedTask}
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          fetchTasks={fetchTasks} // To refetch tasks after update
+        />
       )}
     </div>
   );
