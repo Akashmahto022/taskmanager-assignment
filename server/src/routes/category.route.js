@@ -6,7 +6,7 @@ const categoryRouter = express.Router();
 
 categoryRouter.post("/create",tokenVerify , createCategory)
 categoryRouter.get("/get",tokenVerify , getCategory)
-categoryRouter.patch("/update/:id", tokenVerify, updateCategory)
+categoryRouter.put("/update/:id", tokenVerify, updateCategory)
 categoryRouter.delete("/delete/:id", tokenVerify, deleteCategory)
 
 export default categoryRouter
