@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const UpdateTaskModal = ({ task, isOpen, onClose, fetchTasks }) => {
-  const url = "http://localhost:4000";
+  const url = "https://taskmanager-backend-8tz3.onrender.com";
   const [title, setTitle] = useState(task.title);
   const [description, setDescription] = useState(task.description);
   const [status, setStatus] = useState(task.status);
