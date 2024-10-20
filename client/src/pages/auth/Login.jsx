@@ -11,18 +11,23 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${url}/api/user/login`, {
-        email,
-        password,
-      });
-      const data = response.data
-      console.log(response.data.message, data);
-      dispatch(setUser(data))
+      const response = await axios.post(
+        `${url}/api/user/login`,
+        {
+          email,
+          password,
+        },
+        { withCredentials: true }
+      );
+      localStorage.setItem("myToken", response.data.accessToken);
+      console.log(response.data.accessToken, data);
+      const data = response.data;
+      dispatch(setUser(data));
       navigate("/dashboard");
     } catch (error) {
       console.log("error while login the user", error.message);
@@ -50,7 +55,10 @@ const Login = () => {
               </h2>
               <h2 className="mb-6 text-center text-gray-700">
                 if don't have an account{" "}
-                <Link to={"/signup"} className="underline text-blue-700 font-semibold">
+                <Link
+                  to={"/signup"}
+                  className="underline text-blue-700 font-semibold"
+                >
                   {" "}
                   Signup here
                 </Link>

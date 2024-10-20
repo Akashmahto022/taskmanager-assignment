@@ -46,14 +46,13 @@ const Navbar = () => {
           onClick={handleDropdown}
         >
           <FaUserCircle className="text-2xl" />
-          <span className="hidden sm:inline">{user.name}</span>
         </button>
 
         {isDropdownOpen && (
           <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-10">
-            <p className="px-4 py-2 text-gray-800">Name: {user.name}</p>
+            <p className="px-4 py-2 text-gray-800 font-medium">Name: {user.user.name}</p>
             <button
-              className="block w-full text-left px-4 py-2 text-red-600 hover:bg-red-100"
+              className="block w-full text-left px-4 py-2 text-red-600 hover:bg-red-100 font-semibold hover:bg-red-500 hover:text-white"
               onClick={handleLogout}
             >
               Logout

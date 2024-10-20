@@ -9,8 +9,8 @@ const Sidebar = () => {
         <Link to="/dashboard" className="block p-2 hover:bg-gray-700 rounded">
           Dashboard
         </Link>
-        <Link to="/tasks" className="block p-2 hover:bg-gray-700 rounded">
-          Tasks
+        <Link to="/add-task" className="block p-2 hover:bg-gray-700 rounded">
+          Add Task
         </Link>
         <Link to="/completed/:status" className="block p-2 hover:bg-gray-700 rounded">
           Completed Tasks

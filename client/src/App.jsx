@@ -7,8 +7,7 @@ import { Navigate } from "react-router-dom";
 import Dashboard from "./pages/dashboard/Dashboard";
 import CompletedTask from "./pages/completed task/CompletedTask";
 import InProgress from "./pages/in-progress/InProgress";
-import Task from "./pages/task/Task";
-import Tasks from "./pages/tasks/Tasks";
+import AddTask from "./pages/add-task/AddTask"
 import Pending from "./pages/pending/Pending";
 
 const App = () => {
@@ -20,8 +19,7 @@ const App = () => {
         <Route element={<Layout />}>
           <Route index path="/" element={<Navigate to="/dashboard" />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/tasks" element={<Tasks />} />
-          <Route path="/task/:id" element={<Task />} />
+          <Route path="/add-task" element={<AddTask />} />
           <Route path="/completed/:status" element={<CompletedTask />} />
           <Route path="/in-progress/:status" element={<InProgress />} />
           <Route path="/pending/:status" element={<Pending />} />

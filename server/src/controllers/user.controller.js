@@ -14,7 +14,6 @@ const register = async (req, res) => {
         message: "User already exists with this email try to login",
       });
     }
-    
 
     const hashPassword = await bcrypt.hash(password, 12);
 
@@ -56,17 +55,21 @@ const login = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { id: user._id, data: user },
-      process.env.JWT_KEY_FOR_ACCESS_TOKEN
+      { id: user._id },
+      process.env.JWT_KEY_FOR_ACCESS_TOKEN,
+      { expiresIn: "1d" }
     );
 
     const userData = await User.findById(user._id).select("-password");
+
     res
       .cookie("accessToken", token, {
         httpOnly: true,
+        secure: true,
+        maxAge: 1 * 24 * 60 * 60 * 1000, //1 day
       })
       .status(200)
-      .send(userData);
+      .json({user: userData, accessToken: token});
   } catch (error) {
     res.status(400).json({ success: false, message: "Error in login" });
   }
