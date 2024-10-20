@@ -7,7 +7,7 @@ import UpdateTaskModal from "@/components/updateTaskModal/UpdateTaskModal";
 import { Link } from "react-router-dom";
 
 const Dashboard = () => {
-  const url = "http://localhost:4000";
+  const url = "https://taskmanager-backend-8tz3.onrender.com";
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedTask, setSelectedTask] = useState(null);
