@@ -4,14 +4,21 @@ const createCategory = async (req, res) => {
   const { name } = req.body;
   const userId = req.user.id;
   try {
-    const newCategory = new Category({
+
+    const category = await Category.findOne({name})
+    if (category) {
+      res.status(500).json({status:false, message: "This category name is already exists"})
+    }
+
+    const newCategory = await Category({
       name,
       owner: userId,
     });
-    await newCategory.save();
-    return res.status(201).json(newCategory);
+    console.log(newCategory)
+    const addedCategory = await newCategory.save();
+    return res.status(200).json(addedCategory);
   } catch (error) {
-    return res.status(500).json({ message: "Error creating category", error });
+    return res.status(500).json({ message: "Error while creating category", error:error.message });
   }
 };
 const deleteCategory = async (req, res) => {
@@ -58,4 +65,16 @@ const updateCategory = async (req, res) => {
   }
 };
 
-export { createCategory, updateCategory, deleteCategory };
+const getCategory = async(req, res)=>{
+  const userId = await req.user._id;
+  console.log(userId);
+  try {
+    const category = await Category.find({ owner: userId })
+    return res.status(200).json(category);
+  } catch (error) {
+    return res.status(500).json({ message: "Error fetching tasks", error: error.message });
+  }
+}
+
+
+export { createCategory, updateCategory, deleteCategory, getCategory };

@@ -12,13 +12,13 @@ const Sidebar = () => {
         <Link to="/add-task" className="block p-2 hover:bg-gray-700 rounded">
           Add Task
         </Link>
-        <Link to="/completed/:status" className="block p-2 hover:bg-gray-700 rounded">
+        <Link to="/completed" className="block p-2 hover:bg-gray-700 rounded">
           Completed Tasks
         </Link>
-        <Link to="/pending/:status" className="block p-2 hover:bg-gray-700 rounded">
+        <Link to="/pending/" className="block p-2 hover:bg-gray-700 rounded">
           Pending
         </Link>
-        <Link to="/in-progress/:status" className="block p-2 hover:bg-gray-700 rounded">
+        <Link to="/in-progress/" className="block p-2 hover:bg-gray-700 rounded">
           In Progress
         </Link>
       </nav>

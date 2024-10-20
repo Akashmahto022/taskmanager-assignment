@@ -4,7 +4,6 @@ import { User } from "../models/user.model.js";
 const tokenVerify = async (req, res, next) => {
   try { 
     const token = req.cookies?.accessToken;
-    console.log(token)
     if (!token)
       return res.json({ success: false, message: "user not authenticated" });
 

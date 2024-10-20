@@ -3,29 +3,6 @@ import axios from "axios";
 import { FaEye } from "react-icons/fa";
 import { useSelector } from "react-redux";
 
-const mockTasks = [
-  {
-    id: 1,
-    title: "Task 1",
-    description: "Description for task 1",
-    status: "Pending",
-    dueDate: "2024-10-20",
-  },
-  {
-    id: 2,
-    title: "Task 2",
-    description: "Description for task 2",
-    status: "Completed",
-    dueDate: "2024-10-21",
-  },
-  {
-    id: 3,
-    title: "Task 3",
-    description: "",
-    status: "In Progress",
-    dueDate: "",
-  },
-];
 
 const Dashboard = () => {
   const url = "http://localhost:4000";
@@ -69,27 +46,30 @@ const Dashboard = () => {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
+    <div className="mt-[70px]">
+      <h1 className="text-2xl font-bold mb-2">Dashboard</h1>
+      <h2 className="text-black mb-2">Here is list of tasks that you have created</h2>
 
       {/* Task Table */}
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white border border-gray-200">
           <thead>
             <tr>
-              <th className="px-4 py-2 border-b">Title</th>
-              <th className="px-4 py-2 border-b">Description</th>
-              <th className="px-4 py-2 border-b">Status</th>
-              <th className="px-4 py-2 border-b">Due Date</th>
-              <th className="px-4 py-2 border-b">Action</th>
+              <th className="px-2 py-2 border-b">No</th>
+              <th className="px-2 py-2 border-b">Title</th>
+              <th className="px-2 py-2 border-b">Category</th>
+              <th className="px-2 py-2 border-b">Status</th>
+              <th className="px-2 py-2 border-b">Due Date</th>
+              <th className="px-2 py-2 border-b">Action</th>
             </tr>
           </thead>
           <tbody>
-            {tasks.map((task) => (
-              <tr key={task._id}>
+            {tasks.map((task, index) => (
+              <tr key={task._id} className="text-center">
+                <td className="px-4 py-2 border-b">{index+1}</td>
                 <td className="px-4 py-2 border-b">{task.title}</td>
                 <td className="px-4 py-2 border-b">
-                  {task.description || "No description"}
+                  {task.category ? task.category.name : "No defined"}
                 </td>
                 <td className="px-4 py-2 border-b">{task.status}</td>
                 <td className="px-4 py-2 border-b">
@@ -116,6 +96,9 @@ const Dashboard = () => {
             <h2 className="text-xl font-bold mb-4">Task Details</h2>
             <p>
               <strong>Title:</strong> {selectedTask.title}
+            </p>
+            <p>
+              <strong>Category:</strong> {selectedTask.category ? selectedTask.category.name : "not defined"}
             </p>
             <p>
               <strong>Description:</strong>{" "}

@@ -20,9 +20,9 @@ const App = () => {
           <Route index path="/" element={<Navigate to="/dashboard" />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/add-task" element={<AddTask />} />
-          <Route path="/completed/:status" element={<CompletedTask />} />
-          <Route path="/in-progress/:status" element={<InProgress />} />
-          <Route path="/pending/:status" element={<Pending />} />
+          <Route path="/completed" element={<CompletedTask />} />
+          <Route path="/in-progress" element={<InProgress />} />
+          <Route path="/pending" element={<Pending />} />
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
