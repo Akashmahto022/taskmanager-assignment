@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 
 const AddTask = () => {
-  const url = "http://localhost:4000";
+  const url = "https://taskmanager-backend-8tz3.onrender.com";
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState("pending");
