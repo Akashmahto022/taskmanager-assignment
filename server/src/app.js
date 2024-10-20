@@ -9,7 +9,7 @@ const app = express()
 
 app.use(
     cors({
-        origin: process.env.CORS_ORIGIN || 'https://taskmanager-gvc6.onrender.com',
+        origin: process.env.CORS_ORIGIN,
         credentials: true
     })
 )
