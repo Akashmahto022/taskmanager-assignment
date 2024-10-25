@@ -6,7 +6,7 @@ import axios from "axios";
 import { logoutUser } from "@/store/auth-slice";
 
 const Navbar = () => {
-  const url = "https://taskmanager-backend-8tz3.onrender.com";
+  const url = "http://localhost:4000";
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const {user} = useSelector((state)=>state.auth)
   const dispatch = useDispatch()
