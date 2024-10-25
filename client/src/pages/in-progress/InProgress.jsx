@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 
 
 const InProgress = () => {
-  const url = "https://taskmanager-backend-8tz3.onrender.com";
+  const url = "http://localhost:4000";
   const [tasks, setTasks] = useState([]);
   const [filteredTasks, setFilteredTasks] = useState([]);
   const [loading, setLoading] = useState(true);
